@@ -1,0 +1,51 @@
+# Deployment pour l'application React (frontend)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  labels:
+    app: frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: abdo8558/resismart:frontend  # Remplacez par votre image React
+          ports:
+            - containerPort: 80  # Port exposé par le conteneur React (généralement 80 ou 3000)
+          env:
+            - name: REACT_APP_API_URL  # Variable d'environnement pour l'URL de l'API backend
+              valueFrom:
+                configMapKeyRef:
+                  name: frontend-config
+                  key: REACT_APP_API_URL
+---
+# Service pour exposer le frontend
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+spec:
+  type: NodePort  # Ou LoadBalancer pour une exposition externe
+  selector:
+    app: frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30008  # Port NodePort (optionnel, entre 30000-32767)
+---
+# ConfigMap pour les variables d'environnement du frontend
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-config
+data:
+  REACT_APP_API_URL: "http://192.168.49.2:30007/"  # URL du service backend (ex: http://<service-name>:<port>)

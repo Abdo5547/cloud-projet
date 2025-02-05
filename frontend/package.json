@@ -1,0 +1,61 @@
+{
+  "name": "resismart",
+  "version": "0.1.0",
+  "private": true,
+  "proxy": "http://localhost:8080",
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@fortawesome/fontawesome-free": "^6.7.2",
+    "@mui/icons-material": "^6.3.1",
+    "@mui/joy": "^5.0.0-beta.51",
+    "@mui/material": "^6.3.0",
+    "@mui/x-charts": "^7.23.6",
+    "@mui/x-data-grid": "^7.23.5",
+    "animate.css": "^4.1.1",
+    "apexcharts": "^4.3.0",
+    "axios": "^1.7.9",
+    "bootstrap": "^5.3.3",
+    "chart.js": "^4.4.7",
+    "cra-template": "1.2.0",
+    "jquery": "^3.7.1",
+    "jspdf": "^2.5.2",
+    "jspdf-autotable": "^3.8.4",
+    "qrious": "^4.0.2",
+    "react": "^18.3.1",
+    "react-apexcharts": "^1.7.0",
+    "react-chartjs-2": "^5.3.0",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^7.1.1",
+    "react-scripts": "^5.0.1",
+    "recharts": "^2.15.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "tailwindcss": "^3.4.17"
+  }
+}

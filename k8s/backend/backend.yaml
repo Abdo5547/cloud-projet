@@ -1,0 +1,53 @@
+# Deployment pour l'application backend
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend  # Nom du déploiement
+  labels:
+    app: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend  # Labels cohérents avec le selector
+    spec:
+      containers:
+        - name: backend  # Nom du conteneur
+          image: abdo8558/resismart:backend  # Image Docker
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-config
+                  key: SPRING_DATASOURCE_URL
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_USER
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_PASSWORD
+---
+# Service pour l'application backend
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend  # Nom du service
+spec:
+  type: NodePort  # Type de service
+  selector:
+    app: backend  # Doit correspondre aux labels du Deployment
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 30007  # Port NodePort (optionnel)
