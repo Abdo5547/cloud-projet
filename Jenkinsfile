@@ -6,18 +6,6 @@ pipeline {
         frontendImage = "abdo8558/resismart:frontend-${env.BRANCH_NAME}"  // Nom de l'image frontend basé sur la branche
     }
 
-
-   stage('Push to Docker Hub') {
-      steps {
-        // Utilisation des identifiants Docker
-        withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-            sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
-            sh "docker push ${backendImage}"
-            sh "docker push ${frontendImage}"
-        }
-       }
-   }
-
     stages {
         // Étape 1 : Récupérer le code depuis GitHub
         stage('Checkout') {
@@ -44,7 +32,6 @@ pipeline {
         }
 
         // Étape 4 : Construire les images Docker
-        
         stage('Build Docker Images') {
             steps {
                 sh "docker build -t ${backendImage} -f backend/Dockerfile ."
@@ -52,7 +39,19 @@ pipeline {
             }
         }
 
-        // Étape 5 : Déployer sur Kubernetes
+        // Étape 5 : Push to Docker Hub
+        stage('Push to Docker Hub') {
+            steps {
+                // Utilisation des identifiants Docker
+                withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
+                    sh "docker push ${backendImage}"
+                    sh "docker push ${frontendImage}"
+                }
+            }
+        }
+
+        // Étape 6 : Déployer sur Kubernetes
         stage('Deploy to Kubernetes') {
             steps {
                 sh 'kubectl apply -f backend/mysql.yaml'
