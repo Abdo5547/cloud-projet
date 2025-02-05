@@ -17,7 +17,7 @@ pipeline {
         // Étape 2 : Build du backend Spring Boot
         stage('Build Backend') {
             steps {
-                    sh './mvnw clean package'
+                    sh 'mvn clean package'
             }
         }
 
