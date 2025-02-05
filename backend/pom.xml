@@ -14,7 +14,7 @@
 	<name>Resismart</name>
 	<description>Springboot based microblog backend</description>
 	<properties>
-		<java.version>18</java.version>
+		<java.version>21</java.version>
 	</properties>
 	<dependencies>
 
