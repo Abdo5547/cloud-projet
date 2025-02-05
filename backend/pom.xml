@@ -85,6 +85,16 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+    
+    
+    <dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>8.1.0</version> <!-- Version compatible avec Spring Boot 3.2.0 -->
+    <scope>runtime</scope>
+</dependency>
+
+    
 
     <build>
         <plugins>
