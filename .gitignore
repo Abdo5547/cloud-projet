@@ -1,0 +1,17 @@
+# Ignorer les dépendances Node.js
+frontend/node_modules/
+
+# Ignorer les fichiers de build
+backend/target/
+frontend/build/
+
+# Ignorer les fichiers de configuration locaux
+.env
+*.log
+
+# Ignorer les fichiers IDE
+.idea/
+.vscode/
+
+# Ignorer les fichiers Docker temporaires
+docker-compose.yml
