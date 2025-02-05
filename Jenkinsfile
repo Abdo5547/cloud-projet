@@ -1,6 +1,23 @@
 pipeline {
     agent any
 
+    environment {
+        backendImage = "abdo8558/resismart:backend-${env.BRANCH_NAME}"  // Nom de l'image backend basé sur la branche
+        frontendImage = "abdo8558/resismart:frontend-${env.BRANCH_NAME}"  // Nom de l'image frontend basé sur la branche
+    }
+
+
+   stage('Push to Docker Hub') {
+      steps {
+        // Utilisation des identifiants Docker
+        withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+            sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
+            sh "docker push ${backendImage}"
+            sh "docker push ${frontendImage}"
+        }
+       }
+   }
+
     stages {
         // Étape 1 : Récupérer le code depuis GitHub
         stage('Checkout') {
@@ -27,10 +44,11 @@ pipeline {
         }
 
         // Étape 4 : Construire les images Docker
+        
         stage('Build Docker Images') {
             steps {
-                sh 'docker build -t abdo8558/resismart:backend -f backend/Dockerfile .'
-                sh 'docker build -t abdo8558/resismart:frontend -f frontend/Dockerfile .'
+                sh "docker build -t ${backendImage} -f backend/Dockerfile ."
+                sh "docker build -t ${frontendImage} -f frontend/Dockerfile ."
             }
         }
 
